@@ -5,22 +5,34 @@
       "<span class='etikett-remove'></span>",
     "</span>"
   ].join(''));
+  var etikettTemplate = _.template([
+    "<input class='etikett-input'/>",
+    "<input class='etikett-keytrap' style='width:0px;opacity:0;border:none'/>"
+  ].join(''));
 
   var TagView = Backbone.View.extend({
     events: {
       "click .etikett-remove": "clickRemove",
-      "keydown input": "inputChange",
-      "keyup input": "autosizeInput"
+      "keydown input.etikett-input": "inputChange",
+      "keyup input.etikett-input": "autosizeInput",
+      "focus input.etikett-input": "clearSelection",
+      "click .etikett-tag": "clickTag",
+      "keydown .etikett-keytrap": "trapCatch",
     },
+    className: 'etikett',
 
     initialize: function() {
-      _.bindAll(this, 'render', 'addTag', 'inputChange', 'removeTag');
+      _.bindAll(this, 'render', 'addTag', 'inputChange', 'removeTag', 
+        'trapCatch', 'selectTag', 'deselectTag', 'clearSelection');
+      this.selected = new Backbone.Collection();
       this.listenTo(this.collection, 'add', this.addTag);
       this.listenTo(this.collection, 'remove', this.removeTag);
+      this.listenTo(this.selected, 'add', this.selectTag);
+      this.listenTo(this.selected, 'remove', this.deselectTag);
     },
 
     render: function() {
-      this.$el.html('<input/>');
+      this.$el.html(etikettTemplate({}));
       this.collection.each(this.addTag);
       return this;
     },
@@ -36,13 +48,50 @@
     },
 
     inputChange: function(event) {
-      if (!~[13,188].indexOf(event.keyCode)) return;
-      event.preventDefault();
-
       var input = $(event.target);
-      var tagName = input.val();
-      this.collection.add(new Backbone.Model({name: tagName}));
-      input.val('');
+
+      // Finished tag (comma or enter)
+      if (~[13,188].indexOf(event.keyCode)) {
+        event.preventDefault();
+        var tagName = input.val().trim();
+        this.collection.add(new Backbone.Model({name: tagName}));
+        input.val('');
+      // Backspace in empty input (backspace or delete)
+      } else if (~[8,46].indexOf(event.keyCode) && !input.val().trim()) {
+        event.preventDefault();
+        var lastTag = this.$('.etikett-tag:last');
+        if (!lastTag.length) return;
+        var tag = lastTag.data('model');
+        input.val(tag.get('name'));
+        this.collection.remove(tag);
+      }
+    },
+
+    trapCatch: function(event) {
+      if (!~[8,46].indexOf(event.keyCode)) return;
+      if (!this.selected.length) return;
+      this.deleteSelection();
+    },
+
+    deleteSelection: function() {
+      var self = this;
+      this.selected.each(function(tag) {
+        self.collection.remove(tag);
+        self.selected.remove(tag);
+      });
+    },
+
+    clearSelection: function(event) {
+      var self = this;
+      this.selected.each(function(tag) { self.selected.remove(tag) });
+    },
+
+    selectTag: function(tag) {
+      $("[data-cid=" + tag.cid + "]").addClass('etikett-selected');
+    },
+
+    deselectTag: function(tag) {
+      $("[data-cid=" + tag.cid + "]").removeClass('etikett-selected');
     },
 
     addTag: function(tag) {
@@ -58,6 +107,24 @@
       event.preventDefault();
       var tagEl = $(event.target).parents('.etikett-tag');
       this.collection.remove(tagEl.data('model'));
+    },
+
+    isSelected: function(model) {
+      return this.selected.find(function(tag) { return tag.cid == model.cid });
+    },
+
+    clickTag: function(event) {
+      var target = $(event.target);
+      if (target.is('.etikett-remove')) return;
+
+      var model = target.data('model');
+      this.$('.etikett-keytrap').focus();
+      if (!this.isSelected(model)) {
+        if (!this.ctrlKey) this.clearSelection();
+        this.selected.add(model);
+      } else {
+        this.selected.remove(model);
+      }
     },
 
     removeTag: function(tag) {
