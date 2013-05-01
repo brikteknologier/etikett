@@ -8,19 +8,41 @@
 
   var TagView = Backbone.View.extend({
     events: {
-      "click .etikett-remove": "clickRemove"
+      "click .etikett-remove": "clickRemove",
+      "keydown input": "inputChange",
+      "keyup input": "autosizeInput"
     },
 
     initialize: function() {
-      _.bindAll(this, 'render', 'addTag');
+      _.bindAll(this, 'render', 'addTag', 'inputChange', 'removeTag');
       this.listenTo(this.collection, 'add', this.addTag);
       this.listenTo(this.collection, 'remove', this.removeTag);
     },
 
     render: function() {
-      this.$el.html('');
+      this.$el.html('<input/>');
       this.collection.each(this.addTag);
       return this;
+    },
+
+    autosizeInput: function(event) {
+      var input = $(event.target);
+      var dummy = $('<span/>')
+        .css({ font: input.css('font'), display: 'none' })
+        .text(input.val());
+      this.$el.append(dummy);
+      input.width(dummy.width() + 15);
+      dummy.remove();
+    },
+
+    inputChange: function(event) {
+      if (!~[13,188].indexOf(event.keyCode)) return;
+      event.preventDefault();
+
+      var input = $(event.target);
+      var tagName = input.val();
+      this.collection.add(new Backbone.Model({name: tagName}));
+      input.val('');
     },
 
     addTag: function(tag) {
