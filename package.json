@@ -1,0 +1,19 @@
+{
+  "name": "etikett",
+  "version": "1.0.0",
+  "description": "an unstyled tag entry component managed by backbone",
+  "main": "etikett.js",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/brikteknologier/etikett.git"
+  },
+  "keywords": [
+    "jquery",
+    "backbone",
+    "tag",
+    "entry",
+    "component"
+  ],
+  "author": "Jon Packer <jon.packer@brik.no>",
+  "license": "MIT"
+}
