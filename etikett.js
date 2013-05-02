@@ -139,9 +139,9 @@
 
     if (self.data('etikett')) return self.data('etikett');
 
-    var tag = new Backbone.Model({name:'johanna'});
-    var tag2 = new Backbone.Model({name:'finland'});
-    var tags = new Backbone.Collection([tag,tag2]);
+    if (!options) options = {};
+
+    var tags = options.tags || new Backbone.Collection();
     var view = new TagView({collection: tags});
     self.append(view.render().$el);
 
