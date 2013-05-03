@@ -40,7 +40,11 @@
     autosizeInput: function(event) {
       var input = $(event.target);
       var dummy = $('<span/>')
-        .css({ font: input.css('font'), display: 'none' })
+        .css({ 
+          font: input.css('font'), 
+          'text-transform': input.css('text-transform'),
+          display: 'none' 
+        })
         .text(input.val());
       this.$el.append(dummy);
       input.width(dummy.width() + 15);
