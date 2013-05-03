@@ -18,7 +18,7 @@
       "focus input.etikett-input": "clearSelection",
       "click .etikett-tag": "clickTag",
       "keydown .etikett-keytrap": "trapCatch",
-      "click": "focusInput"
+      "click": "clickBox"
     },
     className: 'etikett',
 
@@ -39,7 +39,8 @@
       return this;
     },
 
-    focusInput: function() {
+    clickBox: function(event) {
+      if (!$(event.target).is(this.$el)) return;
       this.$('.etikett-input').focus();
     },
 
