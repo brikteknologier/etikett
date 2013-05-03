@@ -24,7 +24,8 @@
 
     initialize: function() {
       _.bindAll(this, 'render', 'addTag', 'inputChange', 'removeTag', 
-        'trapCatch', 'selectTag', 'deselectTag', 'clearSelection', 'focusInput');
+        'trapCatch', 'selectTag', 'deselectTag', 'clearSelection', 'clickBox',
+        'addTagString');
       this.selected = new Backbone.Collection();
       this.listenTo(this.collection, 'add', this.addTag);
       this.listenTo(this.collection, 'remove', this.removeTag);
@@ -56,6 +57,14 @@
       dummy.remove();
     },
 
+    addTagString: function(tagText) {
+      var self = this;
+      var tags = tagText.split(',');
+      _.each(tags, function(tag) {
+        self.collection.add(new Backbone.Model({ name: tag.trim() }));
+      });
+    },
+
     inputChange: function(event) {
       var input = $(event.target);
 
@@ -63,7 +72,7 @@
       if (~[13,188].indexOf(event.keyCode)) {
         event.preventDefault();
         var tagName = input.val().trim();
-        this.collection.add(new Backbone.Model({name: tagName}));
+        this.addTagString(tagName);
         input.val('');
       // Backspace in empty input (backspace or delete)
       } else if (~[8,46].indexOf(event.keyCode) && !input.val()) {
