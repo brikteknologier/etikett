@@ -57,7 +57,7 @@
         this.collection.add(new Backbone.Model({name: tagName}));
         input.val('');
       // Backspace in empty input (backspace or delete)
-      } else if (~[8,46].indexOf(event.keyCode) && !input.val().trim()) {
+      } else if (~[8,46].indexOf(event.keyCode) && !input.val()) {
         event.preventDefault();
         var lastTag = this.$('.etikett-tag:last');
         if (!lastTag.length) return;
