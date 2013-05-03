@@ -1,6 +1,7 @@
 # Etikett
 
-Unstyled tag entry component built upon backbone.
+An unstyled tag entry component built upon backbone. It is different to other tag
+components in that it is completely unstyled by default, and heavily opinionated.
 
 ## Usage
 
