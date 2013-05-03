@@ -18,12 +18,13 @@
       "focus input.etikett-input": "clearSelection",
       "click .etikett-tag": "clickTag",
       "keydown .etikett-keytrap": "trapCatch",
+      "click": "focusInput"
     },
     className: 'etikett',
 
     initialize: function() {
       _.bindAll(this, 'render', 'addTag', 'inputChange', 'removeTag', 
-        'trapCatch', 'selectTag', 'deselectTag', 'clearSelection');
+        'trapCatch', 'selectTag', 'deselectTag', 'clearSelection', 'focusInput');
       this.selected = new Backbone.Collection();
       this.listenTo(this.collection, 'add', this.addTag);
       this.listenTo(this.collection, 'remove', this.removeTag);
@@ -35,6 +36,10 @@
       this.$el.html(etikettTemplate({}));
       this.collection.each(this.addTag);
       return this;
+    },
+
+    focusInput: function() {
+      this.$('.etikett-input').focus();
     },
 
     autosizeInput: function(event) {
