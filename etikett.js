@@ -4,11 +4,11 @@
       "<%= name %>",
       "<span class='etikett-remove'></span>",
     "</span>"
-  ].join(''));
+  ].join(' '));
   var etikettTemplate = _.template([
     "<input class='etikett-input'/>",
     "<input class='etikett-keytrap' style='width:0px;opacity:0;border:none'/>"
-  ].join(''));
+  ].join(' '));
 
   var TagView = Backbone.View.extend({
     events: {
