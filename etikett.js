@@ -4,7 +4,7 @@
       "<%= name %>",
       "<span class='etikett-remove'></span>",
     "</span>"
-  ].join(' '));
+  ].join(''));
   var etikettTemplate = _.template([
     "<input class='etikett-input'/>",
     "<input class='etikett-keytrap' style='width:0px;opacity:0;border:none'/>"
@@ -120,6 +120,7 @@
       var lastTag = this.$('.etikett-tag:last');
       if (!lastTag.length) this.$el.prepend(tagEl);
       else this.$('.etikett-tag:last').after(tagEl);
+      tagEl.before(" ");
     },
 
     clickRemove: function(event) {
