@@ -54,7 +54,7 @@
         })
         .text(input.val());
       this.$el.append(dummy);
-      input.width(dummy.width() + 15);
+      input.width(dummy.width() + 35);
       dummy.remove();
     },
 
