@@ -16,6 +16,7 @@
       "keydown input.etikett-input": "inputChange",
       "keyup input.etikett-input": "autosizeInput",
       "focus input.etikett-input": "clearSelection",
+      "blur input.etikett-input": "addCurrentValueAsTag",
       "click .etikett-tag": "clickTag",
       "keydown .etikett-keytrap": "trapCatch",
       "click": "clickBox"
@@ -25,7 +26,7 @@
     initialize: function() {
       _.bindAll(this, 'render', 'addTag', 'inputChange', 'removeTag', 
         'trapCatch', 'selectTag', 'deselectTag', 'clearSelection', 'clickBox',
-        'addTagString');
+        'addTagString', 'addCurrentValueAsTag');
       this.selected = new Backbone.Collection();
       this.listenTo(this.collection, 'add', this.addTag);
       this.listenTo(this.collection, 'remove', this.removeTag);
@@ -66,15 +67,20 @@
       });
     },
 
+    addCurrentValueAsTag: function() {
+      var input = this.$('.etikett-input');
+      var tagName = input.val().trim();
+      this.addTagString(tagName);
+      input.val('');
+    },
+
     inputChange: function(event) {
       var input = $(event.target);
 
       // Finished tag (comma or enter)
       if (~[13,188].indexOf(event.keyCode)) {
         event.preventDefault();
-        var tagName = input.val().trim();
-        this.addTagString(tagName);
-        input.val('');
+        this.addCurrentValueAsTag();
       // Backspace in empty input (backspace or delete)
       } else if (~[8,46].indexOf(event.keyCode) && !input.val()) {
         event.preventDefault();
