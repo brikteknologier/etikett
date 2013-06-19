@@ -70,6 +70,7 @@
     addCurrentValueAsTag: function() {
       var input = this.$('.etikett-input');
       var tagName = input.val().trim();
+      if (!tagName) return;
       this.addTagString(tagName);
       input.val('');
     },
