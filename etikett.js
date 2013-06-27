@@ -182,10 +182,10 @@
       view: view,
       tags: tags,
       get: function(el) {
-        return $(el).etikett().tags.toJSON();
+        return etikett.tags.toJSON();
       },
       set: function(el, value) {
-        return $(el).etikett().tags.set(value.tags).toJSON();
+        return etikett.tags.set(value.tags).toJSON();
       }
     };
 
