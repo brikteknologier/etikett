@@ -180,10 +180,21 @@
 
     var etikett = {
       view: view,
-      tags: tags
+      tags: tags,
+      get: function(el) {
+        return $(el).etikett().tags.toJSON();
+      },
+      set: function(el, value) {
+        return $(el).etikett().tags.set(value.tags).toJSON();
+      }
     };
 
     self.data('etikett', etikett);
+    self.each(function() { this.type = 'etikett' });
+
     return etikett;
+  };
+
+  $.valHooks.etikett = {
   };
 })(jQuery);

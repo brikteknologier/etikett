@@ -40,6 +40,11 @@ $('#etikett').data('etikett') // -> { view: Backbone.View, tags: Backbone.Collec
 
 You can alter the tags collection and the interface will automatically follow.
 
+#### Getting and setting an array of tags
+
+The object returned by `etikett()` also has `get()` and `set()` methods that
+allow you to save and retrieve a regular array of tags. 
+
 
 ### Styling
 
