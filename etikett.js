@@ -194,7 +194,4 @@
 
     return etikett;
   };
-
-  $.valHooks.etikett = {
-  };
 })(jQuery);
