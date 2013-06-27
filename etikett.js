@@ -1,7 +1,7 @@
 ;(function($, undefined) {
   var tagTemplate = _.template([
     "<span class='etikett-tag'>",
-      "<%= name %>",
+      "<%= tag %>",
       "<span class='etikett-remove'></span>",
     "</span>"
   ].join(''));
@@ -63,7 +63,9 @@
       var self = this;
       var tags = tagText.split(',');
       _.each(tags, function(tag) {
-        self.collection.add(new Backbone.Model({ name: tag.trim() }));
+        var tagObject = {};
+        tagObject[self.options.key] = tag.trim();
+        self.collection.add(new Backbone.Model(tagObject));
       });
     },
 
@@ -88,7 +90,7 @@
         var lastTag = this.$('.etikett-tag:last');
         if (!lastTag.length) return;
         var tag = lastTag.data('model');
-        input.val(tag.get('name'));
+        input.val(tag.get(this.options.key));
         this.collection.remove(tag);
       }
     },
@@ -121,7 +123,9 @@
     },
 
     addTag: function(tag) {
-      var tagEl = $(tagTemplate(tag.toJSON()))
+      var tagData = tag.toJSON();
+      tagData.tag = tagData[this.options.key];
+      var tagEl = $(tagTemplate(tagData))
         .data({model:tag})
         .attr('data-cid', tag.cid);
       var lastTag = this.$('.etikett-tag:last');
@@ -168,8 +172,10 @@
 
     if (!options) options = {};
 
+    options.key = options.key || 'tag';
+
     var tags = options.tags || new Backbone.Collection();
-    var view = new TagView({collection: tags});
+    var view = new TagView({collection: tags, key: options.key });
     self.append(view.render().$el);
 
     var etikett = {
