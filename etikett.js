@@ -185,6 +185,7 @@
         return tags.toJSON();
       },
       set: function(value) {
+        if (_.isEqual(value, etikett.get())) return;
         value = $.map(value, function(val) {
           return new Backbone.Model(val);
         });
