@@ -181,10 +181,13 @@
     var etikett = {
       view: view,
       tags: tags,
-      get: function(el) {
+      get: function() {
         return tags.toJSON();
       },
-      set: function(el, value) {
+      set: function(value) {
+        value = $.map(value, function(val) {
+          return new Backbone.Model(val);
+        });
         return tags.set(value).toJSON();
       }
     };
