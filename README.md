@@ -77,6 +77,8 @@ The main elements to style will be:
   It has to be displayed (no `display:none`), but should not actually be visible.
   The default `style` attribute of the element will take care of this.
 
+The `data-cid` attributes are used for internal book-keeping by etikett.
+
 ## License
 
 MIT
