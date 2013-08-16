@@ -27,7 +27,7 @@ Add a tag entry component to the given element.
 
 * `tags` (optional) a backbone collection containing a list of tag models. The
   tag models must have at least a property with the name of the tag (to specify
-  which property, check out the `key` option below.
+  which property, check out the `key` option below)
 * `key` (optional) a string specifying the key on a tag object which should
   contain the name of the tag. defaults to `"tag"`
 
