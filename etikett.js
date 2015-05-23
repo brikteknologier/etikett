@@ -23,10 +23,11 @@
     },
     className: 'etikett',
 
-    initialize: function() {
+    initialize: function(options) {
       _.bindAll(this, 'render', 'addTag', 'inputChange', 'removeTag', 
         'trapCatch', 'selectTag', 'deselectTag', 'clearSelection', 'clickBox',
         'addTagString', 'addCurrentValueAsTag');
+      this.options = options || {};
       this.selected = new Backbone.Collection();
       this.listenTo(this.collection, 'add', this.addTag);
       this.listenTo(this.collection, 'remove', this.removeTag);
