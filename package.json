@@ -1,6 +1,6 @@
 {
   "name": "etikett",
-  "version": "1.0.13",
+  "version": "1.0.14",
   "description": "an unstyled tag entry component managed by backbone",
   "main": "etikett.js",
   "repository": {
