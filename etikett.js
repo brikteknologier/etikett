@@ -190,7 +190,8 @@
         value = $.map(value, function(val) {
           return new Backbone.Model(val);
         });
-        return tags.set(value).toJSON();
+        tags.set(value)
+        return tags.toJSON();
       }
     };
 
