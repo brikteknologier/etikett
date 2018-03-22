@@ -1,4 +1,5 @@
-;(function($, undefined) {
+;
+var etikettConstructor = (function($, undefined) {
   var tagTemplate = _.template([
     "<span class='etikett-tag'>",
       "<%= tag %>",
@@ -200,4 +201,9 @@
 
     return etikett;
   };
-})(jQuery);
+});
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = etikettConstructor;
+} else {
+  etikettConstructor(jQuery);
+}
